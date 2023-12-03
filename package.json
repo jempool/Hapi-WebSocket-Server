@@ -31,6 +31,7 @@
     "@hapi/hapi": "^21.3.2",
     "@types/socket.io": "^3.0.2",
     "dotenv": "^16.3.1",
+    "mongoose": "^8.0.2",
     "socket.io": "^4.7.2",
     "web-streams-polyfill": "^3.2.1"
   },

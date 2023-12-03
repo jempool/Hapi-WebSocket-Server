@@ -2,8 +2,8 @@
 
 import messageController from "../controllers/message.controller.ts";
 
-const myPlugin = {
-  name: "myPlugin",
+const messageRoutesPlugin = {
+  name: "messageRoutesPlugin",
   version: "1.0.0",
   register: async function (server, options) {
     server.route({
@@ -14,4 +14,4 @@ const myPlugin = {
   },
 };
 
-export default myPlugin;
+export default messageRoutesPlugin;

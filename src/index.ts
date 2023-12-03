@@ -5,7 +5,8 @@ import mongoose from "mongoose";
 
 import { PORT, DATABASE_URL, DATABASE_NAME } from "./utils/constants.ts";
 import socketIOPlugin from "./webSockets/websockets.ts";
-import myPlugin from "./routes/message.route.ts";
+import messagesRoutePlugin from "./routes/message.route.ts";
+import authRoutePlugin from "./routes/auth.route.ts";
 
 const init = async () => {
   const server = Hapi.server({
@@ -16,7 +17,9 @@ const init = async () => {
   // WebSockets
   await server.register(socketIOPlugin);
 
-  await server.register(myPlugin);
+  // Routes
+  await server.register(messagesRoutePlugin);
+  await server.register(authRoutePlugin);
 
   await mongoose.connect(`${DATABASE_URL}/${DATABASE_NAME}`);
   await server.start();

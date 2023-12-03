@@ -41,24 +41,20 @@ export default {
     }
   },
 
-  //   refresh: async (request, h) => {
-  //     const { refreshToken, email } = ctx.request.body;
-  //     try {
-  //       const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET) as {
-  //         user: { name: string; email: string };
-  //       };
-  //       if (decoded.user.email !== email) {
-  //         throw new Error("Invalid token, try login again.");
-  //       }
-  //       const user = { name: decoded.user.name, email: decoded.user.email };
-  //       const tokens = generateTokens(user);
-  //       ctx.body = { user, ...tokens };
-  //     } catch (err) {
-  //       ctx.status = 401;
-  //       ctx.body = { message: err.message };
-  //     }
-  //     await next();
-  //   },
+  refresh: async (request, h) => {
+    const { refreshToken, email } = request.payload;
+    if (refreshToken && email) {
+      const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET) as {
+        user: { name: string; email: string };
+      };
+      if (decoded.user.email !== email) {
+        throw Boom.unauthorized("Invalid token, try login again.");
+      }
+      const user = { name: decoded.user.name, email: decoded.user.email };
+      const tokens = generateTokens(user);
+      return { user, ...tokens };
+    }
+  },
 };
 
 const verifyUser = async (email: string, password: string) => {
@@ -69,11 +65,11 @@ const verifyUser = async (email: string, password: string) => {
   return existingUser;
 };
 
-const createUser = async (_user) => {
+const createUser = async (user) => {
   const salt = bcrypt.genSaltSync(BCRYPT_SALT_ROUNDS);
-  const hash = bcrypt.hashSync(_user.password, salt);
-  _user.password = hash;
-  return await authServices.createUser(_user);
+  const hash = bcrypt.hashSync(user.password, salt);
+  user.password = hash;
+  return await authServices.createUser(user);
 };
 
 const generateTokens = (user: { name: string; email: string }) => {

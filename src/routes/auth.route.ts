@@ -17,6 +17,11 @@ const authRoutesPlugin = {
         path: "/auth/login",
         handler: authController.login,
       },
+      {
+        method: "POST",
+        path: "/auth/refresh",
+        handler: authController.refresh,
+      },
     ]);
   },
 };

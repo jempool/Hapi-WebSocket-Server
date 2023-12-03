@@ -12,6 +12,7 @@ const init = async () => {
   const server = Hapi.server({
     port: PORT,
     host: "localhost",
+    routes: { cors: true },
   });
 
   // WebSockets

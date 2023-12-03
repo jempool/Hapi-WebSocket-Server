@@ -2,7 +2,7 @@
 
 import { Server } from "socket.io";
 
-// import dbService from "../services/message.service.ts";
+import dbService from "../services/message.service.ts";
 import {
   WEBSOCKETS_CHAT_EVENT,
   WEBSOCKETS_TYPING_EVENT,
@@ -24,7 +24,7 @@ const socketIOPlugin = {
 
       // Listening for chat event
       socket.on(WEBSOCKETS_CHAT_EVENT, function (data) {
-        //   dbService.addMessage(data);
+        dbService.addMessage(data);
         io.sockets.emit(WEBSOCKETS_CHAT_EVENT, data);
       });
 

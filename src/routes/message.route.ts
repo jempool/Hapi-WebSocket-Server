@@ -10,6 +10,9 @@ const messageRoutesPlugin = {
       method: "GET",
       path: "/chat/history",
       handler: messageController.getAllMessages,
+      options: {
+        auth: "jwt",
+      },
     });
   },
 };

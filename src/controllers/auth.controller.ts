@@ -16,22 +16,26 @@ import { User } from "../interfaces/user.interface.ts";
 
 export default {
   signup: async (request, h) => {
-    const { name, email, password }: User = request.payload;
-    if (await authServices.getUserByEmail(email)) {
-      throw Boom.badRequest(
-        `The email ${email} is already associated with an account`
-      );
-    } else {
-      const newUser = await createUser({ name, email, password });
-      const user = { name: newUser.name, email: newUser.email };
-      const tokens = generateTokens(user);
-      return { user, ...tokens };
+    try {
+      const { name, email, password }: User = request.payload;
+      if (await authServices.getUserByEmail(email)) {
+        throw Boom.badRequest(
+          `The email ${email} is already associated with an account`
+        );
+      } else {
+        const newUser = await createUser({ name, email, password });
+        const user = { name: newUser.name, email: newUser.email };
+        const tokens = generateTokens(user);
+        return { user, ...tokens };
+      }
+    } catch (err) {
+      throw Boom.badRequest(err.message);
     }
   },
 
   login: async (request, h) => {
-    const { email, password }: User = request.payload;
     try {
+      const { email, password }: User = request.payload;
       const existingUser = await verifyUser(email, password);
       const user = { name: existingUser.name, email: existingUser.email };
       const tokens = generateTokens(user);

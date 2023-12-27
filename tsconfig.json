@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
     "outDir": "./dist/",
     "lib": ["es5", "es6", "DOM"],
     "target": "es6",
@@ -14,9 +15,10 @@
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "types": ["jest", "node"]
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts", "tests/auth.controller.spec.ts"],
   "ts-node": {
     "esm": true,
     "transpileOnly": true,

@@ -5,7 +5,7 @@ export default {
     return await User.findOne({ email });
   },
 
-  createUser: async (user: typeof User) => {
+  createUser: async (user) => {
     const newUser = new User({ ...user });
     return await newUser.save();
   },

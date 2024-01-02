@@ -54,10 +54,7 @@ describe("Auth Controller", () => {
       const email = "test@example.com";
       const password = "password123";
 
-      // Mock the service function to return null, indicating no existing user
       jest.spyOn(authServices, "getUserByEmail").mockResolvedValueOnce(null);
-
-      // Mock the service function to simulate creating a new user
       jest
         .spyOn(authServices, "createUser")
         .mockResolvedValueOnce({ name, email, password } as any);
@@ -98,7 +95,7 @@ describe("Auth Controller", () => {
     });
 
     it("should return an error if the payload is missing required fields", async () => {
-      const payload = { name: mockedUser.name }; // Missing email and password
+      const payload = { name: mockedUser.name };
       const response = await server.inject({
         method: "POST",
         url: "/auth/signup",
@@ -111,9 +108,8 @@ describe("Auth Controller", () => {
   });
 
   describe("login", () => {
-    // The failure test for login, the error test for missing payload
     it("should return an error if the payload is missing required fields", async () => {
-      const incompletePayload = {}; // Empty payload, missing email and password
+      const incompletePayload = {};
 
       const response = await server.inject({
         method: "POST",
@@ -121,19 +117,16 @@ describe("Auth Controller", () => {
         payload: incompletePayload,
       });
 
-      // expect(response.statusCode).toBe(400);
       expect(response.result).toHaveProperty(
         "message",
         "Incorrect email or password."
       );
     });
 
-    // The success test for login
     it("should authenticate and return tokens if credentials are correct", async () => {
       const email = "user@example.com";
       const password = "correct_password";
 
-      // Mock a found user
       const foundUser = {
         _id: new mongoose.Types.ObjectId(),
         name: "User",
@@ -141,7 +134,6 @@ describe("Auth Controller", () => {
         password: bcrypt.hashSync(password, bcrypt.genSaltSync()), // Mock hashed password
       };
 
-      // Mock getUserByEmail to simulate finding the user
       jest
         .spyOn(authServices, "getUserByEmail")
         .mockResolvedValue(foundUser as any);

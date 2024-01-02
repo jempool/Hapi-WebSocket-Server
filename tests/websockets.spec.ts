@@ -1,5 +1,3 @@
-// websockets.spec.ts
-
 import Hapi from "@hapi/hapi";
 import { io as Client } from "socket.io-client";
 import socketIOPlugin from "../src/webSockets/websockets";
@@ -17,7 +15,7 @@ describe("WebSockets Chat Events", () => {
 
   beforeAll(async () => {
     server = Hapi.server({
-      port: 0, // Let the system find an available port
+      port: 0,
       host: "localhost",
     });
 
@@ -31,8 +29,8 @@ describe("WebSockets Chat Events", () => {
 
   beforeEach((done) => {
     clientSocket = Client(serverAddr, {
-      path: "/socket.io", // Ensure this is the correct path to your server's socket.io endpoint
-      transports: ["websocket"], // Force WebSocket transport
+      path: "/socket.io",
+      transports: ["websocket"],
     });
 
     clientSocket.on("connect", done);
@@ -63,7 +61,7 @@ describe("WebSockets Chat Events", () => {
     });
 
     clientSocket.emit(WEBSOCKETS_CHAT_EVENT, mockData);
-  }, 30000); // Extend timeout just to be safe
+  }, 30000);
 
   it("should handle typing event", (done) => {
     const mockData = { typing: true, handle: "user1" };
@@ -78,5 +76,5 @@ describe("WebSockets Chat Events", () => {
     });
 
     clientSocket.emit(WEBSOCKETS_TYPING_EVENT, mockData);
-  }, 30000); // Extend timeout just to be safe
+  }, 30000);
 });
